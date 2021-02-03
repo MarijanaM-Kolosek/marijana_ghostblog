@@ -1,11 +1,11 @@
 import React from "react";
-import "./App.css";
+// import "./App.css";
 import { history } from "./helpers/history";
 import { Router, Route } from "react-router-dom";
 import { authService } from "./services/auth.service";
 import { LoginPage } from "./components/LoginPage";
-import { HomePage } from "./components/HomePage";
 import { SignUpPage } from "./components/SignUpPage";
+import { BlogPage } from "./components/BlogPage";
 
 class App extends React.Component {
   constructor(props) {
@@ -24,14 +24,32 @@ class App extends React.Component {
     });
   }
 
+  logout() {
+    authService.logout();
+    history.push("/login");
+  }
+
   render() {
     const { currentUser } = this.state;
     return (
-      <Router history={history}>
-        <Route path="/login" component={LoginPage} />
-        <Route path="/signup" component={SignUpPage} />
-        <Route path="/home" component={HomePage} />
-      </Router>
+      <React.Fragment>
+        {currentUser && (
+          <React.Fragment>
+            <nav className="navbar navbar-expand navbar-dark bg-dark">
+              <div className="navbar-nav">
+                <a onClick={this.logout} className="nav-item nav-link">
+                  Logout
+                </a>
+              </div>
+            </nav>
+          </React.Fragment>
+        )}
+        <Router history={history}>
+          <Route path="/login" component={LoginPage} />
+          <Route path="/signup" component={SignUpPage} />
+          <Route path="/blog" component={BlogPage} />
+        </Router>
+      </React.Fragment>
     );
   }
 }
