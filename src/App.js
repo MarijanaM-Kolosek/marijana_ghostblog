@@ -35,7 +35,7 @@ class App extends React.Component {
       <React.Fragment>
         {currentUser && (
           <React.Fragment>
-            <nav className="navbar navbar-expand navbar-dark bg-dark">
+            <nav className="navbar sticky-top navbar-dark bg-dark">
               <div className="navbar-nav">
                 <a onClick={this.logout} className="nav-item nav-link">
                   Logout

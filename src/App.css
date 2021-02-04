@@ -2,6 +2,7 @@
   --background: #202024;
   --main-purple: rgba(62, 24, 165, 0.9);
   --secondary-gray: rgb(100, 99, 99);
+  --dark-gray: rgba(70, 70, 70, 0.8);
 }
 
 body {
@@ -103,6 +104,28 @@ body {
   height: 50px;
   border-radius: 50%;
   padding: 5px;
+}
+
+.filtersContainer {
+  text-align: center;
+  width: fit-content;
+  margin: auto;
+  margin-top: 40px;
+  background-color: var(--secondary-gray);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.filtersLabel {
+  color: white;
+  font-size: 110%;
+}
+
+.filtersSelectInput {
+  margin: 5px;
+  width: 30%;
+  height: 35px;
+  border-radius: 5px;
 }
 
 h4 {
