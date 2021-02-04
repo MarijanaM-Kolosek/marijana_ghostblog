@@ -2,7 +2,7 @@
   --background: #202024;
   --main-purple: rgba(62, 24, 165, 0.9);
   --secondary-gray: rgb(100, 99, 99);
-  --dark-gray: rgba(70, 70, 70, 0.8);
+  --dark-transparent-gray: rgba(70, 70, 70, 0.4);
 }
 
 body {
@@ -110,7 +110,7 @@ body {
   text-align: center;
   width: fit-content;
   margin: auto;
-  margin-top: 40px;
+  margin-top: 100px;
   background-color: var(--secondary-gray);
   padding: 20px;
   border-radius: 5px;
@@ -126,6 +126,37 @@ body {
   width: 30%;
   height: 35px;
   border-radius: 5px;
+}
+
+.authorTable {
+  border-collapse: collapse;
+  margin: auto;
+  margin-top: 100px;
+  width: 60%;
+}
+
+.authorTable td {
+  color: white;
+  border: 3px solid var(--dark-transparent-gray);
+  padding: 20px;
+  text-align: center;
+  background-color: var(--dark-transparent-gray);
+}
+
+.tdAuthorImage {
+  width: 25%;
+}
+
+.authorImageInTd {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+}
+
+.tdAuthorName {
+  width: 45%;
+  font-size: 150%;
+  font-weight: bold;
 }
 
 h4 {
