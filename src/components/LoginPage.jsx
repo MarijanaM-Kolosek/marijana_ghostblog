@@ -1,80 +1,67 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { authService } from "../services/auth.service";
 
-class LoginPage extends React.Component {
-  constructor(props) {
-    super(props);
+const LoginPage = (props) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
-    this.state = {
-      username: "",
-      password: "",
-      error: null,
-    };
-
+  useEffect(() => {
     if (authService.currentUserValue) {
-      this.props.history.push("/blog");
+      props.history.push("/blog");
     }
-  }
+  });
 
-  change(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
-
-  login(e) {
+  const login = (e) => {
     e.preventDefault();
-    const { username, password } = this.state;
     authService.login(username, password).then(
       (user) => {
-        const { from } = this.props.location.state || {
+        const { from } = props.location.state || {
           from: { pathname: "/blog" },
         };
-        this.props.history.push(from);
+        props.history.push(from);
       },
       (error) => {
-        this.setState({ error: "Invalid username or password." });
+        setError("Invalid username or password.");
       }
     );
-  }
+  };
 
-  render() {
-    return (
-      <div className="centeredDiv">
-        <form onSubmit={(e) => this.login(e)}>
-          <input
-            className="regularInput"
-            type="text"
-            name="username"
-            value={this.state.username}
-            onChange={(e) => this.change(e)}
-            required
-            placeholder="email"
-          />
-          <br />
-          <input
-            className="regularInput"
-            type="password"
-            name="password"
-            value={this.state.password}
-            onChange={(e) => this.change(e)}
-            required
-            placeholder="password"
-          />
-          <br />
-          <button type="submit" className="smallBtn">
-            Login
-          </button>
-        </form>
-        <Link to="/signup" className="link">
-          Don't have an account? Sign up!
-        </Link>
-        {this.state.error && (
-          <div className={"alert alert-danger"}>{this.state.error}</div>
-        )}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="centeredDiv">
+      <form onSubmit={(e) => login(e)}>
+        <input
+          className="regularInput"
+          type="text"
+          name="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          placeholder="email"
+        />
+        <br />
+        <input
+          className="regularInput"
+          type="password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          placeholder="password"
+        />
+        <br />
+        <button type="submit" className="smallBtn">
+          Login
+        </button>
+      </form>
+      <Link to="/signup" className="link">
+        Don't have an account? Sign up!
+      </Link>
+      {error && <div className={"alert alert-danger"}>{error}</div>}
+    </div>
+  );
+};
 
 export { LoginPage };

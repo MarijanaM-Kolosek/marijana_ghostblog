@@ -1,57 +1,54 @@
-import React from "react";
-// import "./App.css";
+import React, { useState, useEffect } from "react";
 import { history } from "./helpers/history";
-import { Router, Route } from "react-router-dom";
+import { Router, Route, Link } from "react-router-dom";
 import { authService } from "./services/auth.service";
 import { LoginPage } from "./components/LoginPage";
 import { SignUpPage } from "./components/SignUpPage";
 import { BlogPage } from "./components/BlogPage";
+import { AuthorsPage } from "./components/AuthorsPage";
+import { Navbar, Nav } from "react-bootstrap";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+const App = () => {
+  const [currentUser, setCurrentUser] = useState(null);
 
-    this.state = {
-      currentUser: null,
-    };
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     authService.currentUser.subscribe((x) => {
-      this.setState({
-        currentUser: x,
-      });
+      setCurrentUser(x);
     });
-  }
+  });
 
-  logout() {
+  const logout = () => {
     authService.logout();
     history.push("/login");
-  }
+  };
 
-  render() {
-    const { currentUser } = this.state;
-    return (
-      <React.Fragment>
+  return (
+    <React.Fragment>
+      <Router history={history}>
         {currentUser && (
           <React.Fragment>
-            <nav className="navbar sticky-top navbar-dark bg-dark">
-              <div className="navbar-nav">
-                <a onClick={this.logout} className="nav-item nav-link">
+            <Navbar bg="dark" variant="dark" fixed="top">
+              <Nav className="mr-auto">
+                <Link to="/blog" className="nav-item nav-link">
+                  Blog
+                </Link>
+                <Link to="/authors" className="nav-item nav-link">
+                  Authors
+                </Link>
+                <a onClick={logout} className="nav-item nav-link">
                   Logout
                 </a>
-              </div>
-            </nav>
+              </Nav>
+            </Navbar>
           </React.Fragment>
         )}
-        <Router history={history}>
-          <Route path="/login" component={LoginPage} />
-          <Route path="/signup" component={SignUpPage} />
-          <Route path="/blog" component={BlogPage} />
-        </Router>
-      </React.Fragment>
-    );
-  }
-}
+        <Route path="/login" component={LoginPage} />
+        <Route path="/signup" component={SignUpPage} />
+        <Route path="/blog" component={BlogPage} />
+        <Route path="/authors" component={AuthorsPage} />
+      </Router>
+    </React.Fragment>
+  );
+};
 
 export default App;
