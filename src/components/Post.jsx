@@ -5,7 +5,6 @@ export class Post extends Component {
   render() {
     const { post } = this.props;
     const postDate = moment(post.published_at).format("LLL");
-    console.log("POST DATE: " + postDate);
     return (
       <div className="post">
         <img className="postImage" src={post.feature_image}></img>
@@ -23,6 +22,12 @@ export class Post extends Component {
               <img className="authorImage" src={author.profile_image}></img>
               {author.name}
             </React.Fragment>
+          ))}
+        </div>
+        <div className="postTagsDiv">
+          tags:
+          {post.tags.map((tag) => (
+            <React.Fragment> {tag.name} </React.Fragment>
           ))}
         </div>
       </div>
