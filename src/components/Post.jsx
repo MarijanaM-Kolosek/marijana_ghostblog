@@ -1,11 +1,26 @@
 import React from "react";
 import * as moment from "moment";
+import { Link } from "react-router-dom";
 
 const Post = (props) => {
+  const { post } = props;
   return (
     <div className="post">
       <img className="postImage" src={props.post.feature_image}></img>
-      <h4>{props.post.title}</h4>
+
+      <h4>
+        <Link
+          className="postTitleLink"
+          to={{
+            pathname: "/post",
+            state: {
+              post,
+            },
+          }}
+        >
+          {props.post.title}
+        </Link>
+      </h4>
       <div className="postExcerpt">
         {props.post.excerpt.length > 250
           ? props.post.excerpt.slice(0, 250)

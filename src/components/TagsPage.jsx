@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { authService } from "../services/auth.service";
+import { connect } from "react-redux";
+import { fetchTags } from "../redux/actions/tagsActions";
 
 const TagsPage = (props) => {
-  const [tags, setTags] = useState([]);
-
   useEffect(() => {
     if (!authService.currentUserValue) {
       props.history.push("/login");
     }
-    getTags();
+    props.fetchTags();
   }, []);
-
-  const getTags = () => {
-    return fetch(
-      `https://demo.ghost.io/ghost/api/v3/content/tags/?key=22444f78447824223cefc48062&include=count.posts`
-    )
-      .then((res) => res.json())
-      .then((data) => setTags(data.tags));
-  };
 
   return (
     <div>
@@ -29,7 +21,7 @@ const TagsPage = (props) => {
             <td>Description</td>
             <td>Num. of posts</td>
           </tr>
-          {tags.map((tag) => (
+          {props.tags.map((tag) => (
             <tr>
               <td>
                 <img className="tagImage" src={tag.feature_image}></img>
@@ -45,4 +37,6 @@ const TagsPage = (props) => {
   );
 };
 
-export { TagsPage };
+const mapStateToProps = (state) => ({ tags: state.tags.tags });
+
+export default connect(mapStateToProps, { fetchTags })(TagsPage);

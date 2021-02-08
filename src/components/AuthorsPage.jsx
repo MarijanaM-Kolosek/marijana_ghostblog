@@ -1,27 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+
 import { authService } from "../services/auth.service";
+import { fetchAuthors } from "../redux/actions/authorsActions";
 
 const AuthorsPage = (props) => {
-  const [authors, setAuthors] = useState([]);
-
   useEffect(() => {
     if (!authService.currentUserValue) {
       props.history.push("/login");
     }
-    getAuthors();
+    props.fetchAuthors();
   }, []);
-
-  const getAuthors = () => {
-    return fetch(
-      `https://demo.ghost.io/ghost/api/v3/content/authors/?key=22444f78447824223cefc48062&include=count.posts`
-    )
-      .then((res) => res.json())
-      .then((data) => setAuthors(data.authors));
-  };
 
   return (
     <div>
-      {authors.map((author) => (
+      {props.authors.map((author) => (
         <table className="authorTable" key={author.id}>
           <tbody>
             <tr>
@@ -45,4 +38,6 @@ const AuthorsPage = (props) => {
   );
 };
 
-export { AuthorsPage };
+const mapStateToProps = (state) => ({ authors: state.authors.authors });
+
+export default connect(mapStateToProps, { fetchAuthors })(AuthorsPage);

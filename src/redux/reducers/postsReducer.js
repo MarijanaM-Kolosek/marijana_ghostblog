@@ -1,0 +1,12 @@
+import * as actionTypes from "../actions/types";
+
+const initialState = { posts: [] };
+
+export default function (state = initialState, action) {
+  switch (action.type) {
+    case actionTypes.FETCH_POSTS:
+      return { ...state, posts: action.payload };
+    default:
+      return state;
+  }
+}
