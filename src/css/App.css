@@ -79,7 +79,7 @@ body {
   border-radius: 5px;
 }
 
-.postExcerpt {
+.PagepostExcerpt {
   min-height: 100px;
 }
 
@@ -177,6 +177,37 @@ body {
 .tagImage {
   height: 70px;
   width: 90px;
+}
+
+.postPageDiv {
+  margin: auto;
+  margin-top: 100px;
+  width: 700px;
+  text-align: center;
+  color: white;
+  background-color: var(--secondary-gray);
+  padding: 50px;
+  border-radius: 5px;
+}
+
+.postPageExcerpt {
+  text-align: justify;
+  margin-top: 50px;
+}
+
+.postPageImage {
+  height: 500px;
+  width: 600px;
+  border-radius: 5px;
+}
+
+.postTitleLink {
+  color: white;
+  text-decoration: none;
+}
+
+.postTitleLink:hover {
+  color: white;
 }
 
 h4 {

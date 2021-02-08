@@ -1,23 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import { authService } from "../services/auth.service";
+import { fetchTags } from "../redux/actions/tagsActions";
 
 const TagsPage = (props) => {
-  const [tags, setTags] = useState([]);
+  const dispatch = useDispatch();
+  const tags = useSelector((state) => state.tags.tags);
 
   useEffect(() => {
     if (!authService.currentUserValue) {
       props.history.push("/login");
     }
-    getTags();
+    dispatch(fetchTags());
   }, []);
-
-  const getTags = () => {
-    return fetch(
-      `https://demo.ghost.io/ghost/api/v3/content/tags/?key=22444f78447824223cefc48062&include=count.posts`
-    )
-      .then((res) => res.json())
-      .then((data) => setTags(data.tags));
-  };
 
   return (
     <div>
@@ -45,4 +41,4 @@ const TagsPage = (props) => {
   );
 };
 
-export { TagsPage };
+export default TagsPage;

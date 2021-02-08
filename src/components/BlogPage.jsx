@@ -1,48 +1,29 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import { authService } from "../services/auth.service";
 import { Post } from "./Post";
+import { fetchPosts } from "../redux/actions/postsActions";
+import { fetchAuthors } from "../redux/actions/authorsActions";
+import { fetchTags } from "../redux/actions/tagsActions";
 
 const BlogPage = (props) => {
-  const [allPosts, setAllPosts] = useState([]);
+  const dispatch = useDispatch();
   const [filteredPosts, setFilteredPosts] = useState([]);
-  const [authors, setAuthors] = useState([]);
-  const [tags, setTags] = useState([]);
+  const posts = useSelector((state) => state.posts.posts);
+  const authors = useSelector((state) => state.authors.authors);
+  const tags = useSelector((state) => state.tags.tags);
 
   useEffect(() => {
     if (!authService.currentUserValue) {
       props.history.push("/login");
     }
-    getAllPosts();
-    getAuthors();
-    getTags();
+    dispatch(fetchPosts());
+    dispatch(fetchAuthors());
+    dispatch(fetchTags());
+
+    setFilteredPosts([...posts]);
   }, []);
-
-  const getAllPosts = () => {
-    return fetch(
-      `https://demo.ghost.io/ghost/api/v3/content/posts/?key=22444f78447824223cefc48062&include=authors,tags`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setAllPosts(data.posts);
-        setFilteredPosts(data.posts);
-      });
-  };
-
-  const getAuthors = () => {
-    return fetch(
-      `https://demo.ghost.io/ghost/api/v3/content/authors/?key=22444f78447824223cefc48062`
-    )
-      .then((res) => res.json())
-      .then((data) => setAuthors(data.authors));
-  };
-
-  const getTags = () => {
-    return fetch(
-      `https://demo.ghost.io/ghost/api/v3/content/tags/?key=22444f78447824223cefc48062`
-    )
-      .then((res) => res.json())
-      .then((data) => setTags(data.tags));
-  };
 
   const sameDay = (date1, date2) => {
     if (date1 && date2) {
@@ -59,36 +40,36 @@ const BlogPage = (props) => {
   const filterByDate = (e) => {
     if (e.target.value) {
       setFilteredPosts([
-        ...allPosts.filter((post) => {
+        ...posts.filter((post) => {
           return sameDay(post.published_at, e.target.value);
         }),
       ]);
     } else {
-      setFilteredPosts([...allPosts]);
+      setFilteredPosts([...posts]);
     }
   };
 
   const filterByAuthor = (e) => {
     if (e.target.value !== "") {
       setFilteredPosts([
-        ...allPosts.filter((post) =>
+        ...posts.filter((post) =>
           post.authors.some((author) => author.id === e.target.value)
         ),
       ]);
     } else {
-      setFilteredPosts([...allPosts]);
+      setFilteredPosts([...posts]);
     }
   };
 
   const filterByTags = (e) => {
     if (e.target.value !== "") {
       setFilteredPosts([
-        ...allPosts.filter((post) =>
+        ...posts.filter((post) =>
           post.tags.some((tag) => tag.id === e.target.value)
         ),
       ]);
     } else {
-      setFilteredPosts([...allPosts]);
+      setFilteredPosts([...posts]);
     }
   };
 
@@ -132,4 +113,4 @@ const BlogPage = (props) => {
   );
 };
 
-export { BlogPage };
+export default BlogPage;
