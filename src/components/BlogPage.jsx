@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
 import { authService } from "../services/auth.service";
 import { Post } from "./Post";
 import { fetchPosts } from "../redux/actions/postsActions";
@@ -7,16 +8,21 @@ import { fetchAuthors } from "../redux/actions/authorsActions";
 import { fetchTags } from "../redux/actions/tagsActions";
 
 const BlogPage = (props) => {
+  const dispatch = useDispatch();
   const [filteredPosts, setFilteredPosts] = useState([]);
+  const posts = useSelector((state) => state.posts.posts);
+  const authors = useSelector((state) => state.authors.authors);
+  const tags = useSelector((state) => state.tags.tags);
+
   useEffect(() => {
     if (!authService.currentUserValue) {
       props.history.push("/login");
     }
-    props.fetchPosts();
-    props.fetchAuthors();
-    props.fetchTags();
+    dispatch(fetchPosts());
+    dispatch(fetchAuthors());
+    dispatch(fetchTags());
 
-    setFilteredPosts([...props.posts]);
+    setFilteredPosts([...posts]);
   }, []);
 
   const sameDay = (date1, date2) => {
@@ -34,36 +40,36 @@ const BlogPage = (props) => {
   const filterByDate = (e) => {
     if (e.target.value) {
       setFilteredPosts([
-        ...props.posts.filter((post) => {
+        ...posts.filter((post) => {
           return sameDay(post.published_at, e.target.value);
         }),
       ]);
     } else {
-      setFilteredPosts([...props.posts]);
+      setFilteredPosts([...posts]);
     }
   };
 
   const filterByAuthor = (e) => {
     if (e.target.value !== "") {
       setFilteredPosts([
-        ...props.posts.filter((post) =>
+        ...posts.filter((post) =>
           post.authors.some((author) => author.id === e.target.value)
         ),
       ]);
     } else {
-      setFilteredPosts([...props.posts]);
+      setFilteredPosts([...posts]);
     }
   };
 
   const filterByTags = (e) => {
     if (e.target.value !== "") {
       setFilteredPosts([
-        ...props.posts.filter((post) =>
+        ...posts.filter((post) =>
           post.tags.some((tag) => tag.id === e.target.value)
         ),
       ]);
     } else {
-      setFilteredPosts([...props.posts]);
+      setFilteredPosts([...posts]);
     }
   };
 
@@ -77,7 +83,7 @@ const BlogPage = (props) => {
           onChange={(e) => filterByAuthor(e)}
         >
           <option value="">Choose author</option>
-          {props.authors.map((author) => (
+          {authors.map((author) => (
             <option value={author.id}>{author.name}</option>
           ))}
         </select>
@@ -87,7 +93,7 @@ const BlogPage = (props) => {
           onChange={(e) => filterByTags(e)}
         >
           <option value="">Choose tag</option>
-          {props.tags.map((tag) => (
+          {tags.map((tag) => (
             <option value={tag.id}>{tag.name}</option>
           ))}
         </select>
@@ -107,14 +113,4 @@ const BlogPage = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  posts: state.posts.posts,
-  authors: state.authors.authors,
-  tags: state.tags.tags,
-});
-
-export default connect(mapStateToProps, {
-  fetchPosts,
-  fetchAuthors,
-  fetchTags,
-})(BlogPage);
+export default BlogPage;

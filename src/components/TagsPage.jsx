@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import { authService } from "../services/auth.service";
-import { connect } from "react-redux";
 import { fetchTags } from "../redux/actions/tagsActions";
 
 const TagsPage = (props) => {
+  const dispatch = useDispatch();
+  const tags = useSelector((state) => state.tags.tags);
+
   useEffect(() => {
     if (!authService.currentUserValue) {
       props.history.push("/login");
     }
-    props.fetchTags();
+    dispatch(fetchTags());
   }, []);
 
   return (
@@ -21,7 +25,7 @@ const TagsPage = (props) => {
             <td>Description</td>
             <td>Num. of posts</td>
           </tr>
-          {props.tags.map((tag) => (
+          {tags.map((tag) => (
             <tr>
               <td>
                 <img className="tagImage" src={tag.feature_image}></img>
@@ -37,6 +41,4 @@ const TagsPage = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({ tags: state.tags.tags });
-
-export default connect(mapStateToProps, { fetchTags })(TagsPage);
+export default TagsPage;
