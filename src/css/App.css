@@ -154,6 +154,31 @@ body {
   font-weight: bold;
 }
 
+.tagListTable {
+  margin: auto;
+  margin-top: 100px;
+  width: 60%;
+}
+
+.tagListTable td {
+  color: white;
+  border: 3px solid var(--dark-transparent-gray);
+  padding: 20px;
+  text-align: center;
+  background-color: var(--dark-transparent-gray);
+  width: 25%;
+}
+
+.tagsHeader {
+  font-size: 130%;
+  font-weight: bold;
+}
+
+.tagImage {
+  height: 70px;
+  width: 90px;
+}
+
 h4 {
   text-align: center;
 }
