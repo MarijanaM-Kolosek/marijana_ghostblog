@@ -73,6 +73,30 @@ const BlogPage = (props) => {
     }
   };
 
+  const searchByTitle = (e) => {
+    if (e.target.value !== "") {
+      setFilteredPosts([
+        ...posts.filter((post) =>
+          post.title.toLowerCase().includes(e.target.value.toLowerCase())
+        ),
+      ]);
+    } else {
+      setFilteredPosts([...posts]);
+    }
+  };
+
+  const searchById = (e) => {
+    if (e.target.value !== "") {
+      setFilteredPosts([
+        ...posts.filter((post) =>
+          post.id.toLowerCase().includes(e.target.value.toLowerCase())
+        ),
+      ]);
+    } else {
+      setFilteredPosts([...posts]);
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="filtersContainer">
@@ -102,6 +126,21 @@ const BlogPage = (props) => {
           type="date"
           name="date"
           onChange={(e) => filterByDate(e)}
+        />
+        <p className="filtersLabel">Search posts by:</p>
+        <input
+          className="regularInput"
+          type="text"
+          name="searchByTitle"
+          onChange={(e) => searchByTitle(e)}
+          placeholder="Search posts by title"
+        />
+        <input
+          className="regularInput"
+          type="text"
+          name="searchById"
+          onChange={(e) => searchById(e)}
+          placeholder="Search posts by ID"
         />
       </div>
       <div className="postsContainer">

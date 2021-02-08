@@ -114,6 +114,7 @@ body {
 .filtersLabel {
   color: white;
   font-size: 110%;
+  margin-top: 15px;
 }
 
 .filtersSelectInput {
