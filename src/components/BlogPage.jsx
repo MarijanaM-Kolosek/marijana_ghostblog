@@ -97,6 +97,34 @@ const BlogPage = (props) => {
     }
   };
 
+  const compareBy = (key) => {
+    return function (a, b) {
+      if (a[key].toLowerCase() < b[key].toLowerCase()) return -1;
+      if (a[key].toLowerCase() > b[key].toLowerCase()) return 1;
+      return 0;
+    };
+  };
+
+  const sortPosts = (e) => {
+    let arrayCopy = [...posts];
+    console.log("SORT POSTS, e.target.value: " + e.target.value);
+    if (e.target.value === "titleAsc") {
+      arrayCopy.sort(compareBy("title"));
+      setFilteredPosts([...arrayCopy]);
+    } else if (e.target.value === "titleDesc") {
+      arrayCopy.sort(compareBy("title"));
+      arrayCopy.reverse();
+      setFilteredPosts([...arrayCopy]);
+    } else if (e.target.value === "dateAsc") {
+      arrayCopy.sort((a, b) => b.published_at.localeCompare(a.timestamp));
+      setFilteredPosts([...arrayCopy]);
+    } else if (e.target.value === "dateDesc") {
+      arrayCopy.sort((a, b) => b.published_at.localeCompare(a.timestamp));
+      arrayCopy.reverse();
+      setFilteredPosts([...arrayCopy]);
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="filtersContainer">
@@ -142,6 +170,18 @@ const BlogPage = (props) => {
           onChange={(e) => searchById(e)}
           placeholder="Search posts by ID"
         />
+        <p className="filtersLabel">Sort posts by:</p>
+        <select
+          className="sortSelectInput"
+          name="selectSort"
+          onChange={(e) => sortPosts(e)}
+        >
+          <option value="">Choose option to sort by</option>
+          <option value="titleAsc">Title ascending</option>
+          <option value="titleDesc">Title descending</option>
+          <option value="dateAsc">Date ascending</option>
+          <option value="dateDesc">Date descending</option>
+        </select>
       </div>
       <div className="postsContainer">
         {filteredPosts.map((post) => (
