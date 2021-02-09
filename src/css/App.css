@@ -211,6 +211,13 @@ body {
   color: white;
 }
 
+.sortSelectInput {
+  margin: 5px;
+  width: 50%;
+  height: 35px;
+  border-radius: 5px;
+}
+
 h4 {
   text-align: center;
 }
