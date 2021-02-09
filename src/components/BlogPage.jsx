@@ -107,22 +107,18 @@ const BlogPage = (props) => {
 
   const sortPosts = (e) => {
     let arrayCopy = [...posts];
-    console.log("SORT POSTS, e.target.value: " + e.target.value);
     if (e.target.value === "titleAsc") {
       arrayCopy.sort(compareBy("title"));
-      setFilteredPosts([...arrayCopy]);
     } else if (e.target.value === "titleDesc") {
       arrayCopy.sort(compareBy("title"));
       arrayCopy.reverse();
-      setFilteredPosts([...arrayCopy]);
     } else if (e.target.value === "dateAsc") {
       arrayCopy.sort((a, b) => b.published_at.localeCompare(a.timestamp));
-      setFilteredPosts([...arrayCopy]);
     } else if (e.target.value === "dateDesc") {
       arrayCopy.sort((a, b) => b.published_at.localeCompare(a.timestamp));
       arrayCopy.reverse();
-      setFilteredPosts([...arrayCopy]);
     }
+    setFilteredPosts([...arrayCopy]);
   };
 
   return (
