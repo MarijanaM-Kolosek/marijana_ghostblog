@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.6.2",
     "bootstrap": "^4.6.0",
     "jquery": "^3.5.1",
+    "local-cors-proxy": "^1.1.0",
     "moment": "^2.29.1",
     "popper.js": "^1.16.1",
     "react": "^17.0.1",
@@ -20,6 +21,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "rxjs": "^6.6.3",
+    "uuid": "^8.3.2",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
