@@ -5,12 +5,13 @@ import { Router, Route, Link } from "react-router-dom";
 import { authService } from "./services/auth.service";
 import { LoginPage } from "./components/LoginPage";
 import { SignUpPage } from "./components/SignUpPage";
-import { PostPage } from "./components/PostPage";
+import PostPage from "./components/PostPage";
 import BlogPage from "./components/BlogPage";
 import AuthorsPage from "./components/AuthorsPage";
 import TagsPage from "./components/TagsPage";
 import { Navbar, Nav } from "react-bootstrap";
 import store from "./redux/store";
+import ProfilePage from "./components/ProfilePage";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -42,6 +43,9 @@ const App = () => {
                 <Link to="/tags" className="nav-item nav-link">
                   Tags
                 </Link>
+                <Link to="/profile" className="nav-item nav-link">
+                  Profile
+                </Link>
                 <a onClick={logout} className="nav-item nav-link">
                   Logout
                 </a>
@@ -55,6 +59,7 @@ const App = () => {
         <Route path="/authors" component={AuthorsPage} />
         <Route path="/tags" component={TagsPage} />
         <Route path="/post" component={PostPage} />
+        <Route path="/profile" component={ProfilePage} />
       </Router>
     </Provider>
   );
