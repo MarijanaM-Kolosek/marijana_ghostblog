@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const Post = (props) => {
   const { post } = props;
+
   return (
     <div className="post">
       <img className="postImage" src={props.post.feature_image}></img>
@@ -14,7 +15,7 @@ const Post = (props) => {
           to={{
             pathname: "/post",
             state: {
-              post,
+              postId: post.id,
             },
           }}
         >

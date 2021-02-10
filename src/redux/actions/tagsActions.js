@@ -11,3 +11,7 @@ export const fetchTags = () => {
       });
   };
 };
+
+export const createNewTag = (payload) => {
+  return { type: actionTypes.CREATE_NEW_TAG, payload: payload };
+};

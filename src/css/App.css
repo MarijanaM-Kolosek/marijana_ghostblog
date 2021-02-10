@@ -30,10 +30,10 @@ body {
 
 .regularInput {
   width: 14em;
-  border: 1px solid gray;
+  border: 1px solid var(--background);
   border-radius: 4px;
-  color: var(--secondary-gray);
   margin: auto;
+  height: 35px;
 }
 
 .whiteLabel {
@@ -218,6 +218,45 @@ body {
   border-radius: 5px;
 }
 
+.profileDiv {
+  background-color: var(--secondary-gray);
+  width: fit-content;
+  margin: auto;
+  margin-top: 100px;
+  border-radius: 5px;
+  padding: 30px;
+  text-align: center;
+  color: white;
+  font-size: 110%;
+}
+
+.profileImage {
+  border-radius: 5px;
+  width: 200px;
+  height: 200px;
+  display: block;
+  margin: auto;
+}
+
+.selectImageBtn {
+  margin: 20px;
+  border-radius: 5px;
+}
+
+.createTagButtons {
+  width: fit-content;
+  background-color: var(--add-tag-btn-color);
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 2px;
+  border: 1px solid var(--background);
+}
+
 h4 {
   text-align: center;
+}
+
+.hideDiv {
+  display: none;
 }
