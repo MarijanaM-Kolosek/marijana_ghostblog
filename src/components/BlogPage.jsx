@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Modal } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
 
 import { authService } from "../services/auth.service";
 import { Post } from "./Post";
-import { fetchPosts } from "../redux/actions/postsActions";
+import { fetchPosts, createNewPostAction } from "../redux/actions/postsActions";
 import { fetchAuthors } from "../redux/actions/authorsActions";
 import { fetchTags } from "../redux/actions/tagsActions";
+import AddTags from "./AddTags";
 
 const BlogPage = (props) => {
   const dispatch = useDispatch();
   const [filteredPosts, setFilteredPosts] = useState([]);
+  const [createPostModal, setCreatePostModal] = useState(false);
+  const [title, setTitle] = useState("");
+  const [readingTime, setReadingTime] = useState("");
+  const [excerpt, setExcerpt] = useState("");
+  const [image, setImage] = useState("");
+  const [tagsToAdd, setTagsToAdd] = useState([]);
   const posts = useSelector((state) => state.posts.posts);
   const authors = useSelector((state) => state.authors.authors);
   const tags = useSelector((state) => state.tags.tags);
@@ -121,6 +130,46 @@ const BlogPage = (props) => {
     setFilteredPosts([...arrayCopy]);
   };
 
+  const toggleCreateNewPost = (e) => {
+    setCreatePostModal(!createPostModal);
+  };
+
+  const createNewPost = (e) => {
+    const newPost = {
+      id: uuidv4(),
+      title: title,
+      feature_image: image,
+      published_at: new Date(),
+      authors: [
+        {
+          name: authService.currentUserValue.username,
+          profile_image: authService.currentUserValue.image,
+        },
+      ],
+      tags: [...tagsToAdd],
+      excerpt: excerpt,
+      reading_time: readingTime,
+    };
+    dispatch(createNewPostAction(newPost));
+    setFilteredPosts([newPost, ...filteredPosts]);
+  };
+
+  const addTagToPost = (selectedTag) => {
+    setTagsToAdd([...tagsToAdd, JSON.parse(selectedTag)]);
+  };
+
+  const createTag = (newTagName) => {
+    const newTag = { id: uuidv4(), name: newTagName };
+    setTagsToAdd([...tagsToAdd, newTag]);
+  };
+
+  const onImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      let img = e.target.files[0];
+      setImage(URL.createObjectURL(img));
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="filtersContainer">
@@ -178,7 +227,79 @@ const BlogPage = (props) => {
           <option value="dateAsc">Date ascending</option>
           <option value="dateDesc">Date descending</option>
         </select>
+        <button
+          className="createNewPostBtn"
+          onClick={(e) => toggleCreateNewPost(e)}
+        >
+          Create new post
+        </button>
       </div>
+
+      <Modal show={createPostModal} onHide={(e) => toggleCreateNewPost(e)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create new post</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="createPostModalDiv">
+            <input
+              className="createPostInputs"
+              type="text"
+              name="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeHolder="Title"
+              required
+            />
+            <br />
+            <input
+              className="createPostInputs"
+              type="readingTime"
+              name="readingTime"
+              value={readingTime}
+              onChange={(e) => setReadingTime(e.target.value)}
+              placeholder="Reading time (min)"
+              required
+            />
+            <br />
+            <textarea
+              className="createPostInputs"
+              type="text"
+              name="excerpt"
+              value={excerpt}
+              onChange={(e) => setExcerpt(e.target.value)}
+              placeholder="Text"
+              required
+            />
+            <p>{tagsToAdd.map((tag) => tag.name + " ")}</p>
+            <AddTags
+              addTagToPost={addTagToPost}
+              createTag={createTag}
+            ></AddTags>
+            <img className="profileImage" src={image} />
+            <input
+              className="selectImageBtn"
+              type="file"
+              name="myImage"
+              onChange={(e) => onImageChange(e)}
+            />
+            <br />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button
+            className="createTagButtons"
+            onClick={(e) => toggleCreateNewPost(e)}
+          >
+            Close
+          </button>
+          <button
+            className="createTagButtons"
+            onClick={(e) => createNewPost(e)}
+          >
+            Save Changes
+          </button>
+        </Modal.Footer>
+      </Modal>
       <div className="postsContainer">
         {filteredPosts.map((post) => (
           <Post key={post.id} post={post}></Post>

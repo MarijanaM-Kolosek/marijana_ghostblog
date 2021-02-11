@@ -30,3 +30,7 @@ export const fetchPostById = (id) => {
 export const addNewTagToPost = (payload) => {
   return { type: actionTypes.ADD_NEW_TAG_TO_POST, payload: payload };
 };
+
+export const createNewPostAction = (payload) => {
+  return { type: actionTypes.CREATE_NEW_POST, payload: payload };
+};

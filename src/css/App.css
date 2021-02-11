@@ -253,6 +253,32 @@ body {
   border: 1px solid var(--background);
 }
 
+.createPostModalDiv {
+  text-align: center;
+}
+
+.createPostInputs {
+  width: 80%;
+  border: 1px solid var(--background);
+  border-radius: 4px;
+  margin: auto;
+  height: 35px;
+  margin: 5px;
+}
+
+.createNewPostBtn {
+  width: 150px;
+  background-color: var(--secondary-gray);
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+  margin: auto;
+  margin-top: 20px;
+  text-align: center;
+  border: 1px solid var(--background);
+  display: block;
+}
+
 h4 {
   text-align: center;
 }
