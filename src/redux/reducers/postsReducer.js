@@ -22,6 +22,8 @@ export default function (state = initialState, action) {
       return { ...state, selectedPost: action.payload };
     case actionTypes.ADD_NEW_TAG_TO_POST:
       return { ...state, selectedPost: action.payload };
+    case actionTypes.CREATE_NEW_POST:
+      return { ...state, posts: [action.payload, ...state.posts] };
     default:
       return state;
   }
